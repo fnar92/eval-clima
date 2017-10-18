@@ -1,0 +1,56 @@
+<div class="container-fluid" ng-controller="ResultadosEncuestasController as scope">
+    <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#/encuestas/ver">Encuestas</a>
+    </li>
+    <li class="breadcrumb-item active">Resultados</li>
+    </ol>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fa fa-area-chart"></i> Resultados instituciones de la encuesta: <strong>{{scope.encuesta.nombre}}</strong>
+        </div>
+
+        <div class="card-body">
+            <div class="row col-md-15">
+        <div class="well">
+            
+            <div class="table-responsive col-md-12" style="overflow-x:auto;">
+                <table class="table">
+                    <colgroup>
+                        <col class="auto-cell-size p-r-20">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">Nombre de la institución</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="i in scope.institucionesEncuesta">
+                            <td class="text-center">{{i.id_institucion}}</td>
+                            <td>{{i.nombre}}</td>
+                            
+                            <td class="text-center">
+                                <button type="button" class="btn btn-success btn-xs"
+                                        ng-click="scope.verEvaluaciones(i)" title="Ver evaluaciones"><span class="fa fa-fw  fa-folder-open"></span></button>
+                                
+                                        
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+            </div>
+            
+        </div>
+    </div>
+            
+</div>
+    </div>
+    
+    
+</div>
+<!-- /.container-fluid-->
+

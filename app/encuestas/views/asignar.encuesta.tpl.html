@@ -1,0 +1,121 @@
+<div class="container-fluid" ng-controller="AsignarEncuestaController as scope">
+    <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#/encuestas/ver">Encuestas</a>
+    </li>
+    <li class="breadcrumb-item active">Asignación de evaluados</li>
+    </ol>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fa fa-area-chart"></i> Evaluados/Participantes de la encuesta: <strong>{{scope.encuesta.nombre}}</strong>
+            <button type="button" ng-show="scope.origen===0" class="btn btn-success pull-right" onclick="location.href='#/encuestas/ver'" title="Continuar">Continuar</button>
+            <button type="button" ng-show="scope.origen===1" class="btn btn-default pull-right" onclick="location.href='#/encuestas/ver'" title="Regresar">Regresar</button>
+        </div>
+
+        <div class="card-body">
+            <div class="row col-md-15">
+        <div class="well">
+            <div class="text-center" ng-if="scope.evaluadosEncuesta.length === 0">
+                <h3>Aviso.</h3>
+                <h5>No se encontraron participantes asignados a esta encucesta, por lo tanto no puedo iniciar el periodo de evaluación.</h5>
+            </div>
+            <div class="table-responsive" style="overflow-x:auto;" ng-if="scope.evaluadosEncuesta.length > 0">
+                <table class="table">
+                    <colgroup>
+                        <col class="auto-cell-size p-r-20">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">Username</th>
+                            <th class="text-center">Nombre</th>
+                            <th class="text-center">Email</th>
+                            <th class="text-center">Clave de acceso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="e in scope.evaluadosEncuesta | startFrom:scope.currentPage * scope.pageSize | limitTo:scope.pageSize ">
+                            <td class="text-center">{{e.id_institucion}}</td>
+                            <td>{{e.username}}</td>
+                            <td>{{e.nombre}}</td>
+                            <td class="text-center">{{e.email}}</td>
+                            <td class="text-center">{{e.clave}}</td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-danger btn-xs" 
+                                        ng-disabled="e.id_estatus_encuesta==='3'||e.id_estatus_encuesta==='4'"
+                                        ng-click="scope.eliminarEvaluado(this, e)" title="Eliminar evaluado"><span class="fa fa-fw  fa-window-close"></span></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+            </div>
+            
+        </div>
+    </div>
+            <button type="button" class="btn btn-primary" ng-click="scope.agregarEvaluado()" title="Agregar institución"><span class="fa fa-fw  fa-user"></span>Agregar institución a evaluar</button>
+     
+</div>
+    </div>
+    
+    <!-- Logout Modal-->
+    <div class="modal fade" id="modal_asignar_ins" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Asignar institución evaluada a: <strong>{{scope.encuesta.nombre}}</strong></h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-floating">
+                        <fieldset>
+                            <legend></legend>
+                            <div class="form-group">
+                                <label for="inputEmail" 
+                                       class="control-label">Nombre de la institución:
+                                </label>
+                                <input class="form-control" 
+                                       type="text" 
+                                       ng-model="scope.evaluado.nombre"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="textArea" 
+                                       class="control-label">Correo electrónico
+                                </label>
+                                <input class="form-control" 
+                                       type="text" 
+                                       ng-model="scope.evaluado.email"/>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="textArea" 
+                                       class="control-label">Username (Acceso evaluación)
+                                </label>
+                                <input class="form-control" 
+                                       type="text" 
+                                       ng-model="scope.evaluado.username"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="textArea" 
+                                       class="control-label">Clave (Password)
+                                </label>
+                                <input class="form-control" 
+                                       type="text" ng-disabled="true" placeholder="Automaticamente generada por el sistema"/>
+                            </div>
+                            
+                        </fieldset>
+                    </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal" ng-click="scope.cancelar()">Cancel</button>
+              <button class="btn btn-primary" type="button" ng-click="scope.agregarEvaluadoAction()">Añadir institucion evaluada</button>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+<!-- /.container-fluid-->

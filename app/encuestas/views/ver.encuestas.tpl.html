@@ -1,0 +1,208 @@
+<div class="container-fluid" ng-controller="VerEncuestasController as scope">
+    <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#/encuestas/ver">Encuestas</a>
+    </li>
+    <li class="breadcrumb-item active">Encuestas</li>
+    </ol>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+          <i class="fa fa-area-chart"></i> Encuestas
+        </div>
+
+        <div class="card-body">
+            <div class="row col-md-15">
+        <div class="well">
+            <div class="text-center" ng-if="scope.encuestas.length === 0">
+                <h3>Aviso.</h3>
+                <h5>No se encontraron encuestas que coincidan con los criterios de búsqueda seleccionados.</h5>
+            </div>
+            <div class="table-responsive col-md-12" style="overflow-x:auto;" ng-if="scope.encuestas.length > 0">
+                <table class="table">
+                    <colgroup>
+                        <col class="auto-cell-size p-r-20">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">Nombre de la encuesta</th>
+                            <th class="text-center">Descripción de la encuesta</th>
+                            <th class="text-center">Fecha de inicio</th>
+                            <th class="text-center">Fecha de término</th>
+                            <th class="text-center">Estatus</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="e in scope.encuestas | startFrom:scope.currentPage * scope.pageSize | limitTo:scope.pageSize ">
+                            <td class="text-center">{{e.id_encuesta}}</td>
+                            <td>{{e.nombre}}</td>
+                            <td>{{e.descripcion}}</td>
+                            <td class="text-center">{{e.fecha_inicio | fecha}}</td>
+                            <td class="text-center">{{e.fecha_fin | fecha}}</td>
+                            <td>
+                                <div ng-switch="e.id_estatus_encuesta">
+                                    <span  ng-switch-when="1"class="label label-info">No configurada</span>
+                                    <span  ng-switch-when="2" class="label label-warning">Configurada</span>
+                                    <span  ng-switch-when="3" class="label label-default">En proceso</span>
+                                    <span  ng-switch-when="4" class="label label-primary">Finalizada</span>
+                                    <span  ng-switch-when="5" class="label label-danger">Cancelada</span>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-success btn-xs"
+                                        ng-show="e.id_estatus_encuesta==='3'||e.id_estatus_encuesta==='4'"
+                                        ng-click="scope.verResultados(e)" title="Ver resultados"><span class="fa fa-fw  fa-folder-open"></span></button>
+                                
+                                        
+                                <button type="button" class="btn btn-warning btn-xs" 
+                                        
+                                        ng-show="e.id_estatus_encuesta==='1'||e.id_estatus_encuesta==='2'" 
+                                        ng-click="scope.configurarEncuesta(e)" title="Personalizar encuesta"><span class="fa fa-fw  fa-file-word-o"></span></button>
+                                
+                                
+                                <button type="button" class="btn btn-default btn-xs"
+                                        ng-show="e.id_estatus_encuesta==='1'||e.id_estatus_encuesta==='2'" 
+                                        ng-click="scope.asignarEvaluados(e)" title="Asignar evaluados"><span class="fa fa-fw  fa-user"></span></button>
+                                
+                                <button type="button" class="btn btn-primary btn-xs" 
+                                        ng-show="e.id_estatus_encuesta==='1'||e.id_estatus_encuesta==='2'" 
+                                        
+                                        ng-click="scope.editarEncuesta(e)" title="Editar encuesta"><span class="fa fa-fw  fa-pencil-square-o"></span></button>
+                                
+                                <button type="button" class="btn btn-danger btn-xs" 
+                                        ng-show="e.id_estatus_encuesta==='1'||e.id_estatus_encuesta==='2'||e.id_estatus_encuesta==='5'" 
+                                        ng-click="scope.eliminarEncuesta(this, e)" title="Eliminar encuesta"><span class="fa fa-fw  fa-window-close"></span></button>
+     
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- INICIA PAGINADO -->
+                <div class="" style="margin: auto; text-align: center">
+                    <button type="button" class="btn btn-default pull-left grey lighten-2" ng-disabled="scope.currentPage == 0" ng-click="scope.anterior()">Anterior</button>
+                    <button type="button" class="btn btn-default pull-right grey lighten-2" ng-disabled="scope.currentPage >= scope.numberOfPages()-1" ng-click="scope.siguiente()">Siguiente</button>
+                </div>
+                <div class="" style="margin: auto; text-align: center">
+                    <div class="btn-group">
+                       <span>{{scope.currentPage + 1}} de {{scope.numberOfPages()}}</span>
+                   </div>
+                </div>
+                <!-- TERMINA PAGINADO -->
+            </div>
+            
+        </div>
+    </div>
+    <button type="button" class="btn btn-success" ng-click="scope.iniciar()" title="Iniciar evaluaciones"><span class="fa fa-fw  fa-at"></span>Iniciar evaluaciones</button>
+    <!--<button type="button" class="btn btn-warning" ng-click="scope.verificarConfiguradas()" title="Verificar evaluaciones"><span class="fa fa-fw  fa-at"></span>Verificar evaluaciones</button>
+    -->
+    <hr>
+    <ul>
+        <li><strong>Iniciar evaluaciones:</strong> 
+            <p>Inicia las evaluaciones que entren en el periodo de evaluacion y esten 
+                en un estatus <strong>"CONFIGURADA"</strong>, es decir que la encuesta este lista y tenga sus evaluados.</p>
+            <p>Esta acción notificara a las instituciones participantes y asi mismo se enviaran las credenciales de acceso para entrar a contestar la evaluación.</p>
+            <p>La institución sera la responsable de controlar a quien proporcionar dichos accesos.</p>
+            <p>La encuesta pasa a un estatus <strong>"EN PROCESO"</strong> en este momento los evaluados (instituciones) ya pueden acceder y contestar la encuesta.</p>
+        </li>
+        <li><strong>Acción que siempre se ejecuta:</strong> 
+            <p>Verifica que cada encuesta tenga al menos una pregunta y que al menos tenga asignada una institución a evaluar.</p>
+            <p>La encuesta pasa a un estatus <strong>"CONFIGURADA"</strong></p>
+            
+        </li>
+    </ul>
+</div>
+    </div>
+    
+    <!-- Logout Modal-->
+    <div class="modal fade" id="modal_encuesta" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Editar encuesta {{scope.encuesta.id_encuesta}}</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-floating">
+                        <fieldset>
+                            <legend></legend>
+                            <div class="form-group">
+                                <label for="inputEmail" 
+                                       class="control-label">Nombre de la encuesta (Máximo 300 caracteres)
+                                </label>
+                                <input class="form-control" 
+                                       type="text" 
+                                       maxlength="300"
+                                       ng-model="scope.encuesta.nombre"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="textArea" 
+                                       class="control-label">Descripción de la encuesta (Máximo 500 caracteres)
+                                </label>
+                                <textarea class="form-control vertical"
+                                          rows="2" 
+                                          id="textArea" 
+                                          ng-model="scope.encuesta.descripcion" 
+                                    maxlength="500">
+                                </textarea>
+                            </div>
+                            <div class="form-group p-t-10 p-b-10">
+                                <div class="input-group"> 
+                                    <div class="row">
+                                        <div class="col-md-6 filled">
+                                            <i class="md md-event-available"></i>
+                                            <label class="control-label normal">Fecha de inicio</label>
+                                            <input type="date" 
+                                                   class="form-control" 
+                                                   ng-model="scope.encuesta.fecha_inicio" 
+                                                   placeholder="De" 
+                                                    />
+                                        </div>
+                                        <div class="col-md-6 filled">
+                                            <i class="md md-event-available"></i>
+                                            <label class="control-label normal">Fecha de término</label>
+                                            <input type="date" 
+                                                   class="form-control" 
+                                                   ng-model="scope.encuesta.fecha_fin" 
+                                                   placeholder="A" 
+                                                    />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="textArea" 
+                                       class="control-label">Estatus encuesta:
+                                </label>
+                                <select class="form-control"  ng-model="scope.encuesta.id_estatus_encuesta">
+                                    <option ng-repeat="e in scope.listaCat" value="{{e.id_estatus_encuesta}}">{{e.nombre}}</option>
+                                </select>
+                            </div>
+                            
+                        </fieldset>
+                    </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal" ng-click="scope.cancelar()">Cancel</button>
+              <button class="btn btn-primary" type="button" ng-click="scope.guardarEncuestaAction()">Guardar encuesta</button>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+<!-- /.container-fluid-->
+
+<!-- Core plugin JavaScript-->
+<script src="assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Page level plugin JavaScript-->
+<script src="assets/vendor/chart.js/Chart.min.js"></script>
+<script src="assets/vendor/datatables/jquery.dataTables.js"></script>
+<script src="assets/vendor/datatables/dataTables.bootstrap4.js"></script>
+
+<!-- Custom scripts for this page-->
+<script src="assets/js/sb-admin-datatables.min.js"></script>
+<!--<script src="assets/js/sb-admin-charts.min.js"></script>-->

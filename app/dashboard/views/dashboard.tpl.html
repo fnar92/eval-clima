@@ -1,0 +1,46 @@
+<div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Inicio</a>
+        </li>
+        <li class="breadcrumb-item active">Inicio</li>
+      </ol>
+      
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-copyright"></i> Bienvendid@</div>
+        <div class="card-body">
+            <p>Bienvenido al sistema de evaluación de clima laboral. En el menú lateral izquierdo podra encontrar todas las opciones disponibles.f</p>
+        </div>
+        <div class="card-footer small text-muted">HRWise 2017</div>
+      </div>
+      
+      
+      
+      <div ng-if="tipoUsuario==='2'" class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-clone"></i> Evaluación</div>
+        <div class="card-body">
+            
+            <div class=" "ng-show="dash.eval">
+                <p>Evaluación: <strong>{{dash.evaluacion.nombre}}</strong></p>
+                <p>Descripción: <strong>{{dash.evaluacion.descripcion}}</strong></p>
+                <p>Periodo: <strong>{{dash.evaluacion.fecha_inicio}} al {{dash.evaluacion.fecha_fin}} </strong></p>
+                
+            <button type="button" class="btn btn-success pull-left" 
+                    ng-disabled="!dash.eval" ng-click="dash.iniciarEvaluacion()" title="Iniciar evaluacion"><span class="fa fa-fw  fa-at"></span>Iniciar evaluacion</button>
+    
+                        
+                   
+            </div>
+            
+            <div class="row "ng-show="!dash.eval">
+                <p class="error">Sin evaluaciones</p>
+            </div>
+            
+        </div>
+      </div>
+      
+    </div>
+    <!-- /.container-fluid-->

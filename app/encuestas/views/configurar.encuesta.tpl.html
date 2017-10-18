@@ -1,0 +1,97 @@
+<style>
+    
+
+
+</style>
+<div class="container-fluid" ng-controller="ConfigurarEncuestaController as scope">
+    <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#/encuestas/ver">Encuestas</a>
+    </li>
+    <li class="breadcrumb-item active">Personalizar/Configurar encuesta</li>
+    </ol>
+    
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-area-chart"></i> Personalizar/Configurar encuesta: <strong>{{scope.encuesta.nombre}}</strong>
+            <button type="button" ng-show="scope.origen===0" class="btn btn-success pull-right" onclick="location.href='#/encuestas/asignar'" title="Continuar">Continuar</button>
+            <button type="button" ng-show="scope.origen===1" class="btn btn-default pull-right" onclick="location.href='#/encuestas/ver'" title="Regresar">Regresar</button>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <h2>Contenido de la encuesta</h2>
+            </div>
+            <div ng-if="scope.encuestaDetalle.length===0"><p>Sin contenido</p></div>
+            <div ng-if="scope.encuestaDetalle.length>0">
+            <div class="row" ng-show="scope.currentPage < scope.encuestaDetalle.length">
+                <div ng-repeat="t in scope.encuestaDetalle | startFrom:scope.currentPage | limitTo:1">
+                    <p>
+                        Tema {{ t.num }}: 
+                        <span style="font-size: 15px; font-weight: bold">{{t.nombre}}</p>
+
+                    <div class="bordered factores-dimension">
+                        <div ng-repeat="($index1,p) in t.preguntas">
+                            <p style="text-align: justify">Pregunta {{p.num}}. <strong>{{p.info.nombre_pregunta}}</strong> <button type="button" class="btn btn-danger btn-xs" ng-click="scope.addDelPregunta(p)" title="Eliminar pregunta"><span class="fa fa-fw  fa-window-close"></span></button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="" style="margin: auto; text-align: center">
+                <button type="button" class="btn btn-default pull-left grey lighten-2" ng-disabled="scope.currentPage == 0" ng-click="scope.currentPage = scope.currentPage -1">Anterior</button>
+                <button type="button" class="btn btn-default pull-right grey lighten-2" ng-disabled="scope.currentPage == scope.encuestaDetalle.length-1" ng-click="scope.currentPage = scope.currentPage +1">Siguiente</button>
+            </div>
+            <div class="" style="margin: auto; text-align: center">
+                <div class="btn-group">
+                   <span>{{scope.currentPage + 1}} de {{scope.encuestaDetalle.length}}</span>
+               </div>
+            </div>
+            </div>
+        </div>
+        
+         <div class="card-body">
+            <div class="row">
+                <h2>Banco de preguntas</h2>
+            </div>
+            <div class="row" ng-show="scope.currentPage2 < scope.preguntas.length">
+                <div ng-repeat="t in scope.preguntas | startFrom:scope.currentPage2 | limitTo:1">
+                    <p>
+                        Tema {{ t.num }}: 
+                        <span style="font-size: 15px; font-weight: bold">{{t.nombre}}</p>
+
+                    <div class="bordered factores-dimension">
+                        <div ng-repeat="($index1,p) in t.preguntas">
+                            <p style="text-align: justify">Pregunta {{p.num}}. <strong>{{p.nombre_pregunta}}</strong>
+                                <input type="checkbox"
+                                           value="{{p.id_pregunta}}"
+                                           ng-model="p.checked"
+                                           ng-click="scope.addDelPregunta(p)"
+                                    >
+                                <!--<label class="switch">
+                                    <input type="checkbox"
+                                           value="{{p.id_pregunta}}"
+                                           ng-model="p.checked"
+                                           ng-click="scope.update($index1, scope.preguntas, p);$event.stopPropagation()"
+                                    >
+                                    <span class="slider round"></span>
+                                  </label>-->
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="" style="margin: auto; text-align: center">
+                <button type="button" class="btn btn-default pull-left grey lighten-2" ng-disabled="scope.currentPage2 == 0" ng-click="scope.currentPage2 = scope.currentPage2 -1">Anterior</button>
+                <button type="button" class="btn btn-default pull-right grey lighten-2" ng-disabled="scope.currentPage2 == scope.preguntas.length-1" ng-click="scope.currentPage2 = scope.currentPage2 +1">Siguiente</button>
+            </div>
+            <div class="" style="margin: auto; text-align: center">
+                <div class="btn-group">
+                   <span>{{scope.currentPage2 + 1}} de {{scope.preguntas.length}}</span>
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.container-fluid-->

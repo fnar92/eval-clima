@@ -1,0 +1,90 @@
+<div class="container-fluid" ng-controller="CrearEncuestaController as scope">
+    <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#/encuestas/ver">Encuestas</a>
+    </li>
+    <li class="breadcrumb-item active">Crear nueva encuesta</li>
+    </ol>
+    
+    <div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-area-chart"></i> Crear nueva encuesta
+        </div>
+
+        <div class="card-body">
+<div class="forms-advanced row m-b-40" id="datepickers">
+            <div class="col-md-3 col-md-push-9">
+                <h5>Complete los datos</h5>
+            </div>
+            <div class="col-md-9 col-md-pull-3">
+                <div class="well white">
+                    <form class="form-floating">
+                        <fieldset>
+                            <legend></legend>
+                            <div class="form-group">
+                                <label for="inputEmail" 
+                                       class="control-label">Nombre de la encuesta (Máximo 300 caracteres)
+                                </label>
+                                <input class="form-control" 
+                                       type="text" 
+                                       maxlength="300"
+                                       ng-model="scope.encuesta.nombre"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="textArea" 
+                                       class="control-label">Descripción de la encuesta (Máximo 500 caracteres)
+                                </label>
+                                <textarea class="form-control vertical"
+                                          rows="2" 
+                                          id="textArea" 
+                                          ng-model="scope.encuesta.descripcion" 
+                                    maxlength="500">
+                                </textarea>
+                            </div>
+                            <div class="form-group p-t-10 p-b-10">
+                                <div class="input-group"> 
+                                    <div class="row">
+                                        <div class="col-md-6 filled">
+                                            <i class="md md-event-available"></i>
+                                            <label class="control-label normal">Fecha de inicio</label>
+                                            <input type="date" 
+                                                   class="form-control" 
+                                                   ng-model="scope.encuesta.fecha_inicio" 
+                                                   placeholder="De" 
+                                                   bs-datepicker />
+                                        </div>
+                                        <div class="col-md-6 filled">
+                                            <i class="md md-event-available"></i>
+                                            <label class="control-label normal">Fecha de término</label>
+                                            <input type="date" 
+                                                   class="form-control" 
+                                                   ng-model="scope.encuesta.fecha_fin" 
+                                                   placeholder="A" 
+                                                   bs-datepicker />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <button type="submit" 
+                                        class="btn btn-primary" 
+                                        ng-click="scope.crearEncuesta()"
+                                        >Crear
+                                </button>
+                                <button type="reset" 
+                                        class="btn btn-default" 
+                                        ng-click="scope.limpiaCampos()"
+                                        >Limpiar
+                                </button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </div>
+</div>
+<!-- /.container-fluid-->

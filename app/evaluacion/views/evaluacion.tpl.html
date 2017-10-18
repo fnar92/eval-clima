@@ -1,0 +1,116 @@
+<div class="container-fluid" ng-controller="EvaluacionController as scope">
+    
+    
+    <div class="card mb-4">
+        <div class="card-header text-center">
+            <i class="fa fa-area-chart"></i> 
+            EVALUACION DE CLIMA LABORAL Y ENTORNO ORGANIZACIONAL FAVORABLE
+        </div>
+        
+        <div class="card-body">
+            <div class="text-center texto">DATOS DEMOGRAFICOS</div>
+            <br>
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td class="texto">Género</td>
+                        <td>
+                            <md-radio-group  ng-model="scope.respuestaEncuesta.genero" ng-change="scope.guardarRespuestaEncuesta()">
+                                <md-radio-button style="margin-left: 10px"  value="Femenino" class="md-primary">Femenino</md-radio-button>
+                                <md-radio-button style="margin-left: 10px"  value="Masculino">Masculino</md-radio-button>
+                            </md-radio-group>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="texto">Edad</td>
+                        <td>
+                            <md-radio-group  ng-model="scope.respuestaEncuesta.edad" ng-change="scope.guardarRespuestaEncuesta()">
+                                <md-radio-button style="margin-left: 10px"  value="Menos de 25" class="md-primary">Menos de 25</md-radio-button>
+                                <md-radio-button style="margin-left: 10px"  value="Entre 25 y 35">Entre 25 y 35</md-radio-button>
+                                <md-radio-button style="margin-left: 10px"  value="Entre 35 y 45">Entre 35 y 45</md-radio-button>
+                                <md-radio-button style="margin-left: 10px"  value="Entre 46 y 56">Entre 46 y 56</md-radio-button>
+                            </md-radio-group>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="texto">Antigüedad empresa</td>
+                        <td>
+                            <md-radio-group  ng-model="scope.respuestaEncuesta.antiguedad_empresa" ng-change="scope.guardarRespuestaEncuesta()">
+                                <md-radio-button style="margin-left: 10px"  value="Menos de 1 año" class="md-primary">Menos de 1 año</md-radio-button>
+                                <md-radio-button style="margin-left: 10px"  value="Entre 1 y 5 años">Entre 1 y 5 años</md-radio-button>
+                                <md-radio-button style="margin-left: 10px"  value="Entre 5 y 10 años">Entre 5 y 10 años</md-radio-button>
+                                <md-radio-button style="margin-left: 10px"  value="Más de 10 años">Más de 10 años</md-radio-button>
+                            </md-radio-group>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="texto">Antigüedad puesto</td>
+                        <td>
+                            <md-radio-group  ng-model="scope.respuestaEncuesta.antiguedad_puesto" ng-change="scope.guardarRespuestaEncuesta()">
+                                <md-radio-button style="margin-left: 10px"  value="Menos de 1 año" class="md-primary">Menos de 1 año</md-radio-button>
+                                <md-radio-button style="margin-left: 10px"  value="Entre 1 y 5 años">Entre 1 y 5 años</md-radio-button>
+                                <md-radio-button style="margin-left: 10px"  value="Entre 5 y 10 años">Entre 5 y 10 años</md-radio-button>
+                                <md-radio-button style="margin-left: 10px"  value="Más de 10 años">Más de 10 años</md-radio-button>
+                            </md-radio-group>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="texto">Tipo de puesto</td>
+                        <td>
+                            <md-radio-group  ng-model="scope.respuestaEncuesta.tipo_puesto" ng-change="scope.guardarRespuestaEncuesta()">
+                                <md-radio-button style="margin-left: 10px"  value="Administrativo" class="md-primary">Administrativo</md-radio-button>
+                                <md-radio-button style="margin-left: 10px"  value="Operativo">Operativo</md-radio-button>
+                            </md-radio-group>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="texto">Area</td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="scope.respuestaEncuesta.area" ng-blur="scope.guardarRespuestaEncuesta()">
+                        </td>
+                    </tr>
+              </tbody>
+            </table>
+            
+            
+            <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" ng-repeat="t in scope.examen" >
+                
+              <thead>
+                <tr>
+                    <th colspan="2"></th>
+                    <th class="text-center">Totalmente en desacuerdo</th>
+                    <th class="text-center">En desacuerdo</th>
+                    <th class="text-center">De acuerdo</th>
+                    <th class="text-center">Totalmente de acuerdo</th>
+                </tr>
+                <tr>
+                    <th colspan="2" class="texto"><span style="font-size: 15px; font-weight: bold">{{t.nombre}}</th>
+                </tr>
+              </thead>
+              <tfoot>
+              </tfoot>
+              <tbody>
+                <tr ng-repeat="($index1,p) in t.preguntas">
+                    
+                    <td>{{p.consecutivo}}</td>
+                    <td>{{p.info.nombre_pregunta}}</td>
+                    <td ng-repeat="es in p.escalas" class="text-center">
+                        <input type="radio" name="{{$parent.p.id_pregunta}}" 
+                               ng-click="scope.guardarRepuesta($parent.p, es)" >
+                        
+                    
+                    </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+    </div>
+    
+</div>
+<!-- /.container-fluid-->

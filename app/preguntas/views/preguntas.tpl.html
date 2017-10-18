@@ -1,0 +1,115 @@
+<div class="container-fluid" ng-controller="PreguntasController as scope" ng-init="start = 0; start2=0;">
+    <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#/preguntas">Preguntas</a>
+    </li>
+    <li class="breadcrumb-item active">Banco de preguntas</li>
+    </ol>
+    
+    <div class="card mb-3">
+    <div class="card-header">
+      <i class="fa fa-area-chart"></i> Banco de preguntas
+      <button type="button" class="btn btn-primary btn-xs pull-right" ng-click="scope.agregarTema()">Añadir tema</button>
+    </div>
+    <div class="" style="margin: auto; text-align: center">
+        <button type="button" class="btn btn-default btn-xs pull-left grey lighten-2" ng-disabled="scope.currentPage == 0" ng-click="scope.anterior()">Anterior</button>
+        <div class="btn-group">
+           <span>{{scope.currentPage + 1}} de {{scope.preguntas.length}}</span>
+        </div>
+        <button type="button" class="btn btn-default btn-xs pull-right grey lighten-2" ng-disabled="scope.currentPage == scope.preguntas.length-1" ng-click="scope.siguiente()">Siguiente</button>
+    </div>
+    <div class="" style="margin: auto; text-align: center">
+        
+    </div>
+    <div class="card-body">
+        
+        <div class="row" ng-show="scope.currentPage < scope.preguntas.length">
+            <div ng-repeat="t in scope.preguntas | startFrom:scope.currentPage | limitTo:1" ng-init="current = $parent.start; $parent.start=$parent.start+1;">
+                <p>
+                    Tema {{ t.num }}: 
+                    <span style="font-size: 15px; font-weight: bold">{{t.nombre}}
+                    <button type="button" class="btn btn-primary btn-xs" ng-click="scope.editarTema(t)" title="Editar tema"><span class="fa fa-fw  fa-pencil-square-o"></span></button></span>
+                    <button type="button" class="btn btn-danger btn-xs" ng-click="scope.eliminarTema(this, t)" title="Eliminar tema"><span class="fa fa-fw  fa-window-close"></span></button>
+                    <button type="button" class="btn btn-success btn-xs pull-right" ng-click="scope.agregarPregunta(t)">Añadir otra pregunta a este tema</button>
+                </p>
+                
+                <div class="bordered factores-dimension">
+                    <div ng-repeat="($index1,p) in t.preguntas">
+                        <p style="text-align: justify">Pregunta {{p.num}}. <strong>{{p.nombre_pregunta}}</strong>
+                            <button type="button" class="btn btn-primary btn-xs" ng-click="scope.editarPregunta(t, p)" title="Editar pregunta"><span class="fa fa-fw  fa-pencil-square-o"></span></button>
+                            <button type="button" class="btn btn-danger btn-xs" ng-click="scope.eliminarPregunta(this, p)" title="Eliminar pregunta"><span class="fa fa-fw  fa-window-close"></span></button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="" style="margin: auto; text-align: center">
+            <button type="button" class="btn btn-default pull-left grey lighten-2" ng-disabled="scope.currentPage == 0" ng-click="scope.anterior()">Anterior</button>
+            <button type="button" class="btn btn-default pull-right grey lighten-2" ng-disabled="scope.currentPage == scope.preguntas.length-1" ng-click="scope.siguiente()">Siguiente</button>
+        </div>
+        <div class="" style="margin: auto; text-align: center">
+            <div class="btn-group">
+               <span>{{scope.currentPage + 1}} de {{scope.preguntas.length}}</span>
+           </div>
+        </div>
+    </div>
+    </div>
+    
+    <!-- Logout Modal-->
+    <div class="modal fade" id="modal_add_tema" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" ng-if="scope.tema_add">Añadir tema</h5>
+                <h5 class="modal-title" ng-if="!scope.tema_add">Editar tema</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                      <label >Nombre del tema:</label>
+                      <input class="form-control" type="text" ng-model="scope.tema.nombre">
+                    </div>
+                  </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal" ng-click="scope.cancelar()">Cancel</button>
+              <button class="btn btn-primary" type="button" ng-click="scope.guardarTemaAction()">Guardar tema</button>
+            </div>
+          </div>
+        </div>
+    </div>
+    
+    <!-- Logout Modal-->
+    <div class="modal fade" id="modal_add_pregunta" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" ng-if="scope.pregunta_add">Añadir pregunta a: {{scope.tema.nombre}}</h5>
+                <h5 class="modal-title" ng-if="!scope.pregunta_add">Editar pregunta: {{scope.pregunta.id_pregunta}}</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                      <label>Pregunta:</label>
+                      <input class="form-control" type="text" ng-model="scope.pregunta.nombre_pregunta">
+                    </div>
+                  </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal" ng-click="scope.cancelar()">Cancel</button>
+              <button class="btn btn-primary" type="button" ng-click="scope.guardarPreguntaAction()">Guardar pregunta</button>
+            </div>
+          </div>
+        </div>
+    </div>
+    
+    
+</div>
+<!-- /.container-fluid-->
